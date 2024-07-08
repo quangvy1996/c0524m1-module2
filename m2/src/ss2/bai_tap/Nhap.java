@@ -1,6 +1,4 @@
-package ss1.bai_tap;
-
-import java.util.Scanner;
+package ss2.bai_tap;
 
 public class Nhap {
     public static void main(String[] args) {
