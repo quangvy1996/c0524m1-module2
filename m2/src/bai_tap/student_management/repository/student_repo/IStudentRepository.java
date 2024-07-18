@@ -4,4 +4,5 @@ import bai_tap.student_management.model.Student;
 
 public interface IStudentRepository {
     Student[] findAll();
+    void addStudent(Student student);
 }

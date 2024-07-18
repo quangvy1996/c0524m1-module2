@@ -19,4 +19,15 @@ public class StudentRepository implements IStudentRepository {
         //
         return list;
     }
+
+    @Override
+    public void addStudent(Student student) {
+        for (int i = 0; i < list.length; i++) {
+            if (list[i] == null) {
+                list[i] = student;
+                return;
+            }
+
+        }
+    }
 }

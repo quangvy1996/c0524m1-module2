@@ -5,6 +5,10 @@ import java.time.LocalDate;
 public class Student extends Person {
     private String className;
 
+    public Student() {
+
+    }
+
     public Student(String name, LocalDate birthDate, String email, String phoneNumber, String className) {
         super(name, birthDate, email, phoneNumber);
         this.className = className;

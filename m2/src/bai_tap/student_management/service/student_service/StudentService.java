@@ -8,7 +8,11 @@ public class StudentService implements IStudentService {
     private IStudentRepository studentRepository = new StudentRepository();
     @Override
     public Student[] findAll() {
-
         return studentRepository.findAll();
+    }
+
+    @Override
+    public void addStudent(Student student) {
+        studentRepository.addStudent(student);
     }
 }
