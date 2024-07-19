@@ -5,6 +5,7 @@ import bai_tap.student_management.service.student_service.IStudentService;
 import bai_tap.student_management.service.student_service.StudentService;
 
 import java.time.LocalDate;
+import java.util.ArrayList;
 import java.util.Scanner;
 
 
@@ -13,7 +14,7 @@ public class StudentController {
     private Scanner sc = new Scanner(System.in);
 
     public void display() {
-        Student[] students = studentService.findAll();
+        ArrayList<Student> students = studentService.findAll();
         for (Student student : students) {
             if (student != null) {
                 System.out.println(student);

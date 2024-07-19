@@ -1,22 +1,34 @@
 package ss10.bai_tap.trien_khai_lop_list;
 
+import java.util.Arrays;
+
 public class MyList<E> {
     private int size;
     private static final int DEFAULT_CAPACITY = 10;
-    private E[] elements = (E[]) new Object[DEFAULT_CAPACITY];
+    private Object[] elements = new Object[DEFAULT_CAPACITY];
 
     public MyList() {
     }
 
     public MyList(int capacity) {
-        elements = (E[]) new Object[capacity];
+        elements = new Object[capacity];
+    }
+
+    @Override
+    public String toString() {
+        return "MyList{" +
+                "size=" + size +
+                ", elements=" + Arrays.toString(elements) +
+                '}';
     }
 
     public void add(int index, E element) {
-        if(elements[index] == null) {
+        if (elements[index] == null) {
+            elements[index] = element;
             size++;
+        } else {
+            elements[index] = element;
         }
-        elements[index] = element;
     }
 
     public E remove(int index) {
@@ -45,6 +57,7 @@ public class MyList<E> {
         }
         return false;
     }
+
     public int indexOf(E o) {
         for (int i = 0; i < elements.length; i++) {
             if (elements[i].equals(o)) {
@@ -53,14 +66,16 @@ public class MyList<E> {
         }
         return -1;
     }
+
     public void ensureCapacity(int minCapacity) {
         if (minCapacity == elements.length) {
-          E[] newArray = (E[]) new Object[minCapacity * 2];
-          System.arraycopy(elements, 0, newArray, 0, elements.length);
-          elements = newArray;
+            E[] newArray = (E[]) new Object[minCapacity * 2];
+            System.arraycopy(elements, 0, newArray, 0, elements.length);
+            elements = newArray;
         }
     }
-    public void clear(){
+
+    public void clear() {
         size = 0;
         E[] newArray = (E[]) new Object[DEFAULT_CAPACITY];
         elements = newArray;
