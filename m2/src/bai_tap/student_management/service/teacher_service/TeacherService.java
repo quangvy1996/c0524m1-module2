@@ -17,4 +17,20 @@ public class TeacherService implements ITeacherService {
     public void addTeacher(Teacher teacher) {
         teacherRepo.addTeacher(teacher);
     }
+
+    @Override
+    public void updateTeacher(String id, Teacher updatedTeacher) {
+        teacherRepo.updateTeacher(id, updatedTeacher);
+    }
+
+    @Override
+    public Teacher findTeacherById(String id) {
+        return teacherRepo.findTeacherById(id);
+    }
+
+    @Override
+    public boolean deleteTeacher(String id) {
+        teacherRepo.deleteTeacher(id);
+        return true;
+    }
 }

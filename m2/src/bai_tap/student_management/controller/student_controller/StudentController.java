@@ -19,11 +19,66 @@ public class StudentController {
             if (student != null) {
                 System.out.println(student);
             }
-            ;
         }
     }
 
+    public void editStudent() {
+        System.out.print("Nhập ID của học viên cần chỉnh sửa: ");
+        String id = sc.nextLine();
+
+        Student existingStudent = studentService.findStudentById(id);
+        if (existingStudent == null) {
+            System.out.println("Không tìm thấy học viên có ID là " + id);
+            return;
+        }
+        System.out.println("Thông tin học viên cần chỉnh sửa:");
+        System.out.println(existingStudent);
+
+        int choice;
+        do {System.out.println("Chọn thông tin cần chỉnh sửa: \n" +
+                "1. Tên. \n" +
+                "2. Ngày sinh. \n" +
+                "3. Email. \n" +
+                "4. Số điện thoại. \n" +
+                "5. Lớp. \n"+
+                "6. Hoàn thành. \n"
+        );
+            choice = Integer.parseInt(sc.nextLine());
+            switch (choice) {
+            case 1:
+                System.out.println("Tên mới:");
+                String newName = sc.nextLine();
+                existingStudent.setName(newName);
+                break;
+            case 2:
+                System.out.println("Ngày sinh mới:");
+                LocalDate newBirthday = LocalDate.parse(sc.nextLine());
+                existingStudent.setBirthDate(newBirthday);
+                break;
+            case 3:
+                System.out.println("Email mới:");
+                String newEmail = sc.nextLine();
+                existingStudent.setEmail(newEmail);
+                break;
+            case 4:
+                System.out.println("SĐT mới:");
+                String newPhoneNumber = sc.nextLine();
+                existingStudent.setPhoneNumber(newPhoneNumber);
+                break;
+            case 5:
+                System.out.println("Lớp mới:");
+                String newClassName = sc.nextLine();
+                existingStudent.setClassName(newClassName);
+                break;
+        }
+        }
+        while (choice != 6);
+        studentService.updateStudent(id,existingStudent);
+    }
+
     public void addStudent() {
+        System.out.println("Nhập id");
+        String id = sc.nextLine();
         System.out.print("Nhập tên: ");
         String name = sc.nextLine();
         System.out.print("Nhập ngày sinh: ");
@@ -31,12 +86,27 @@ public class StudentController {
         System.out.println("Nhập email: ");
         String email = sc.nextLine();
         System.out.println("Nhập sdt: ");
-        String phone = sc.nextLine();
+        String phoneNumber = sc.nextLine();
         System.out.println("Nhập tên lớp: ");
         String className = sc.nextLine();
 
-        Student student1 = new Student(name, birthday, email, phone, className);
+        Student student1 = new Student(id, name, birthday, email, phoneNumber, className);
         studentService.addStudent(student1);
+    }
+    public void deleteStudent() {
+        System.out.print("Nhập ID của học viên cần xóa: ");
+        String id = sc.nextLine();
+
+        Student existingStudent = studentService.findStudentById(id);
+        if (existingStudent == null) {
+            System.out.println("Không tìm thấy học viên có ID là " + id);
+            return;
+        }
+        System.out.println("Thông tin giảng vien cần xóa");
+        System.out.println(existingStudent);
+        if (studentService.deleteStudent(id)) {
+            System.out.println("Xóa thành công");;
+        }
     }
 
     public void DisplayStudentFunctional() {
@@ -57,7 +127,11 @@ public class StudentController {
                 case 2:
                     addStudent();
                     break;
+                case 3:
+                    editStudent();
+                    break;
                 case 4:
+                    deleteStudent();
                     break;
                 case 5:
                     return;
