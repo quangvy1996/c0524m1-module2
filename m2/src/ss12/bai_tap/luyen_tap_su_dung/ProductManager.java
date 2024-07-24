@@ -68,25 +68,13 @@ public class ProductManager {
     public void searchProduct() {
         System.out.println("Nhập tên sản phẩm:");
         String productName = scanner.next();
-        Stack<Character> nameStack = new Stack<>();
-        for (int i = 0; i < productName.length(); i++) {
-            char ch = productName.charAt(i);
-            nameStack.push(ch);
-        }
         for (int i = 0; i < productList.size(); i++) {
-            String temp = productList.get(i).getName().toLowerCase();
-            Stack<Character> tempStack = new Stack<>();
-            for (int j = 0; j < temp.length(); j++) {
-                char c = temp.charAt(i);
-                tempStack.push(c);
-            }
-            while (!nameStack.isEmpty()) {
-                if (nameStack.pop() == tempStack.pop()) {
-                    System.out.println(productList.get(i).getName());
-                }
+            if (productList.get(i).getName().contains(productName)) {
+                System.out.println(productList.get(i));
             }
         }
     }
+
     public void DisplayStudentFunctional() {
         int choice;
         do {
@@ -118,9 +106,10 @@ public class ProductManager {
             }
         } while (true);
     }
+
     public static void main(String[] args) {
-    ProductManager productManager = new ProductManager();
-    productManager.DisplayStudentFunctional();
+        ProductManager productManager = new ProductManager();
+        productManager.DisplayStudentFunctional();
     }
 
 }
