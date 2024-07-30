@@ -9,9 +9,7 @@ public class CodeGymManagement {
     public static void main(String[] args) {
         Scanner sc = new Scanner(System.in);
         StudentController studentController = new StudentController();
-        studentController.display();
         TeacherController teacherController = new TeacherController();
-        teacherController.display();
         int choice;
         do {
             System.out.println("Quản lý Codegym: \n" +

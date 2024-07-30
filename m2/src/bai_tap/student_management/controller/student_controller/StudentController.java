@@ -6,6 +6,7 @@ import bai_tap.student_management.service.student_service.StudentService;
 
 import java.time.LocalDate;
 import java.util.ArrayList;
+import java.util.List;
 import java.util.Scanner;
 
 
@@ -14,7 +15,7 @@ public class StudentController {
     private Scanner sc = new Scanner(System.in);
 
     public void display() {
-        ArrayList<Student> students = studentService.findAll();
+        List<Student> students = studentService.findAll();
         for (Student student : students) {
             if (student != null) {
                 System.out.println(student);
@@ -29,7 +30,6 @@ public class StudentController {
         Student existingStudent = studentService.findStudentById(id);
         if (existingStudent == null) {
             System.out.println("Không tìm thấy học viên có ID là " + id);
-            return;
         }
         System.out.println("Thông tin học viên cần chỉnh sửa:");
         System.out.println(existingStudent);
@@ -88,8 +88,16 @@ public class StudentController {
     }
 
     public void addStudent() {
-        System.out.println("Nhập id");
-        String id = sc.nextLine();
+        Student existingStudent;
+        String id;
+        do {
+            System.out.println("Nhập id");
+            id = sc.nextLine();
+            existingStudent = studentService.findStudentById(id);
+            if (existingStudent != null) {
+                System.out.println("id đã tồn tại");
+            }
+        } while (existingStudent != null);
         System.out.print("Nhập tên: ");
         String name = sc.nextLine();
         System.out.print("Nhập ngày sinh: ");
@@ -110,17 +118,17 @@ public class StudentController {
         String id = sc.nextLine();
 
         Student existingStudent = studentService.findStudentById(id);
-        if (existingStudent == null) {
-            System.out.println("Không tìm thấy học viên có ID là " + id);
-            return;
-        }
-        System.out.println("Thông tin giảng vien cần xóa");
-        System.out.println(existingStudent);
-        if (studentService.deleteStudent(id)) {
+        if (existingStudent != null) {
+            System.out.println("Thông tin học viên cần xóa");
+            System.out.println(existingStudent);
+            studentService.deleteStudent(id);
             System.out.println("Xóa thành công");
-            ;
+        }
+        else{
+            System.out.println("Không tìm thấy học viên");
         }
     }
+    public void searchByName(List<Student> students) {}
 
     public void DisplayStudentFunctional() {
         int choice;
@@ -130,7 +138,7 @@ public class StudentController {
                     "2. Thêm mới học viên. \n" +
                     "3. Chỉnh sửa thông tin học viên. \n" +
                     "4. Xóa học viên. \n" +
-                    "5. Go back menu. \n" +
+                    "5. Trở về Menu. \n" +
                     "Xin chọn");
             choice = Integer.parseInt(sc.nextLine());
             switch (choice) {

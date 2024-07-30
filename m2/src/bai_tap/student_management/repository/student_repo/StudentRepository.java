@@ -1,56 +1,90 @@
 package bai_tap.student_management.repository.student_repo;
 
 import bai_tap.student_management.model.Student;
+import bai_tap.student_management.util.ReadAndWrite;
 
+import java.io.*;
 import java.time.LocalDate;
 import java.util.ArrayList;
+import java.util.List;
+
 
 public class StudentRepository implements IStudentRepository {
-    private static ArrayList<Student> list;
+    public static final String PATH = "src/bai_tap/student_management/data/student_mvc.csv";
 
-    static {
-        list = new ArrayList<>();
-        Student s1 = new Student("1", "Thái Quang Vỹ", LocalDate.parse("2012-03-01"), "thaiquangvy1996@gmail.com", "0911144422", "C05");
-        Student s2 = new Student("2", "Phạm Trung Hiếu", LocalDate.parse("2011-04-01"), "phamtrunghieu@gmail.com", "0911133322", "C05");
-        list.add(s1);
-        list.add(s2);
-    }
 
     @Override
-    public ArrayList<Student> findAll() {
-        return list;
+    public List<Student> findAll() {
+        List<String> stringList = ReadAndWrite.readFileCSVToListString(PATH);
+        List<Student> studentList = new ArrayList<>();
+        String[] array = null;
+        for (String s : stringList) {
+            array = s.split(",");
+            Student student = new Student(array[0], array[1], LocalDate.parse(array[2]), array[3], array[4], array[5]);
+            studentList.add(student);
+        }
+        return studentList;
     }
 
     @Override
     public void addStudent(Student student) {
-        list.add(student);
-
+        List<String> stringList = new ArrayList<>();
+        stringList.add(student.getInfoToCSV());
+        ReadAndWrite.writeStringListToFile(PATH, stringList, true);
     }
 
-    @Override
+        @Override
     public void updateStudent(String id, Student updatedStudent) {
-        for (int i = 0; i < list.size(); i++) {
-            if (list.get(i).getId().equals(id)) {
-                list.set(i, updatedStudent);
-                return;
+            List<Student> studentList = findAll();
+            for (int i = 0; i < studentList.size(); i++) {
+            if (studentList.get(i).getId().equals(id)) {
+                studentList.set(i, updatedStudent);
             }
+                List<String> stringList = new ArrayList<>();
+                for (Student student : studentList) {
+                    stringList.add(student.getInfoToCSV());
+                }
+                ReadAndWrite.writeStringListToFile(PATH, stringList, false);
         }
     }
 
     @Override
     public Student findStudentById(String id) {
-        for (int i = 0; i < list.size(); i++){
-            if (list.get(i).getId().equals(id)) {
-                return list.get(i);
+        List<Student> studentList = findAll();
+        for (int i = 0; i < studentList.size(); i++) {
+            if (studentList.get(i).getId().equals(id)) {
+                return studentList.get(i);
             }
         }
         return null;
     }
 
     @Override
-    public boolean deleteStudent(String id) {
-        list.remove(findStudentById(id));
-        return true;
+    public void deleteStudent(String id) {
+        List<Student> studentList = findAll();
+        for (int i = 0; i < studentList.size(); i++) {
+            if (studentList.get(i).getId().equals(id)) {
+                studentList.remove(i);
+            }
         }
+        List<String> stringList = new ArrayList<>();
+        for (Student student : studentList) {
+            stringList.add(student.getInfoToCSV());
+        }
+        ReadAndWrite.writeStringListToFile(PATH, stringList, false);
     }
+
+    @Override
+    public Student searchStudentByName(String name) {
+        List<Student> studentList = findAll();
+        for (int i = 0; i < studentList.size(); i++) {
+            if (studentList.get(i).getName().contains(name)) {
+                return studentList.get(i);
+            }
+        }
+        return null;
+    }
+
+}
+
 

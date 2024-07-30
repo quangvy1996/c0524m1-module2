@@ -4,12 +4,12 @@ import bai_tap.student_management.model.Student;
 import bai_tap.student_management.repository.student_repo.IStudentRepository;
 import bai_tap.student_management.repository.student_repo.StudentRepository;
 
-import java.util.ArrayList;
+import java.util.List;
 
 public class StudentService implements IStudentService {
     private IStudentRepository studentRepository = new StudentRepository();
     @Override
-    public ArrayList<Student> findAll() {
+    public List<Student> findAll() {
         return studentRepository.findAll();
     }
 
@@ -29,8 +29,14 @@ public class StudentService implements IStudentService {
     }
 
     @Override
-    public boolean deleteStudent(String id) {
+    public void deleteStudent(String id) {
         studentRepository.deleteStudent(id);
-        return true;
+
     }
+
+    @Override
+    public Student searchStudentByName(String name) {
+        return studentRepository.searchStudentByName(name);
+    }
+
 }
