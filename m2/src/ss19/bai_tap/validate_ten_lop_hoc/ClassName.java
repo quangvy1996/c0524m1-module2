@@ -7,7 +7,7 @@ public class ClassName {
     private static Pattern pattern;
 
 
-    private static final String className_regex = "\\b[CAP][0-9]{4}[GHIK]\\b";
+    private static final String className_regex = "^[CAP][0-9]{4}[GHIK]$";
     static {
         pattern = Pattern.compile(className_regex);
     }
